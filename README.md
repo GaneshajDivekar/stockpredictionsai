@@ -1,10 +1,10 @@
-# 🚀 Stock Prediction AI
+#  Stock Prediction AI
 
 **Stock Prediction AI** is a robust, extensible backend platform for intelligent stock action recommendations. It leverages FastAPI, Clean Architecture, and the Mistral LLM to analyze investor portfolios and market news from Excel files, delivering actionable buy/sell/hold insights for each investor and each stock.
 
 ---
 
-## 🌟 Features
+##  Features
 
 - **Multi-Investor Support:** Analyze portfolios for any number of investors from `.xls`/`.xlsx` files.
 - **Market News Integration:** Incorporate the latest market/news data for context-aware recommendations.
@@ -15,7 +15,7 @@
 
 ---
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 stockpredictionsai/
@@ -37,7 +37,7 @@ stockpredictionsai/
 
 ---
 
-## ⚡ Quickstart
+##  Quickstart
 
 1. **Clone the repository**
 2. **Add your `.xls`/`.xlsx` files** to the `data/` folder (at least one news/impact file required, e.g., `Market_Impact_News_2024.xlsx`)
@@ -59,7 +59,7 @@ stockpredictionsai/
 
 ---
 
-## 🧠 How It Works
+##  How It Works
 
 - **Upload** investor and news files in Excel format.
 - **Process**: The backend reads all files, extracts portfolios and news.
@@ -68,7 +68,7 @@ stockpredictionsai/
 
 ---
 
-## 🔗 API Endpoints
+##  API Endpoints
 
 ### 1. Upload XLS File
 - **POST** `/upload/`
@@ -117,7 +117,7 @@ stockpredictionsai/
 
 ---
 
-## 🛠️ Example Code Snippets
+##  Example Code Snippets
 
 ### Reading and Processing XLS Files
 
@@ -162,7 +162,7 @@ async def analyze_news(news_text):
 
 ---
 
-## 🤖 MCP Server: Agentic Flow Orchestration
+##  MCP Server: Agentic Flow Orchestration
 
 The **MCP (Multi-Component Process) server** enables advanced agentic workflows. It orchestrates multiple reasoning steps, LLM calls, and data processing actions in a single, structured flow. This is ideal for:
 - Multi-step decision making
@@ -185,7 +185,7 @@ The **MCP (Multi-Component Process) server** enables advanced agentic workflows.
 
 ---
 
-## 📂 Example `.xls` File Placement
+##  Example `.xls` File Placement
 
 - Place all investor and news files in the `data/` folder:
   - `data/Investor_1_Portfolio_2024.xlsx`
@@ -194,7 +194,7 @@ The **MCP (Multi-Component Process) server** enables advanced agentic workflows.
 
 ---
 
-## 🧩 Extending the Project
+##  Extending the Project
 
 - Add more business logic in `app/use_cases/`
 - Add new endpoints in `app/api/endpoints.py` or `app/api/mcp.py`
@@ -203,7 +203,7 @@ The **MCP (Multi-Component Process) server** enables advanced agentic workflows.
 
 ---
 
-## 🐞 Troubleshooting
+##  Troubleshooting
 
 - **400 Bad Request from Mistral API:**
   - Check your API key and model name in `app/core/llm.py`.
@@ -215,16 +215,17 @@ The **MCP (Multi-Component Process) server** enables advanced agentic workflows.
 
 ---
 
-## 📜 License
+##  License
 
 MIT (or your preferred license)
 
 ---
 
-## 🙋‍♂️ Questions or Contributions?
+##  Questions or Contributions?
 
 - Open an issue or pull request!
 - For feature requests, ideas, or help, contact the maintainer.
+- Ganesh Divekar: +91-8459684546
 
 ---
 
