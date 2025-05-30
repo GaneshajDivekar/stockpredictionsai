@@ -1,19 +1,21 @@
-# Stock Prediction AI
+# 🚀 Stock Prediction AI
 
-A FastAPI-based backend for stock prediction and news impact analysis using Mistral LLM and Excel data files, following Clean Architecture principles.
-
----
-
-## Features
-- Upload and process multiple `.xls`/`.xlsx` files (e.g., portfolios, news, impact data)
-- Analyze news/impact using Mistral LLM API
-- Predict stock actions (buy/sell/hold) for all users or each user individually, with reasoning
-- **MCP (Multi-Component Process) server for agentic flows**
-- Clean, extensible architecture for easy future enhancements
+**Stock Prediction AI** is a robust, extensible backend platform for intelligent stock action recommendations. It leverages FastAPI, Clean Architecture, and the Mistral LLM to analyze investor portfolios and market news from Excel files, delivering actionable buy/sell/hold insights for each investor and each stock.
 
 ---
 
-## Project Structure
+## 🌟 Features
+
+- **Multi-Investor Support:** Analyze portfolios for any number of investors from `.xls`/`.xlsx` files.
+- **Market News Integration:** Incorporate the latest market/news data for context-aware recommendations.
+- **LLM-Powered Reasoning:** Uses Mistral LLM for deep, explainable AI-driven analysis.
+- **Agentic (MCP) Flow:** Orchestrate multi-step, multi-agent reasoning for advanced workflows.
+- **RESTful API:** Clean, documented endpoints for easy integration.
+- **Extensible Architecture:** Built for growth—add new agents, tools, or business logic with ease.
+
+---
+
+## 🏗️ Project Structure
 
 ```
 stockpredictionsai/
@@ -35,71 +37,38 @@ stockpredictionsai/
 
 ---
 
-## Setup Instructions
+## ⚡ Quickstart
 
 1. **Clone the repository**
-2. **Place your `.xls`/`.xlsx` files** in the `data/` folder. (At least one news/impact file is required, e.g., `Market_Impact_News_2024.xlsx`)
-3. **Create a virtual environment and install dependencies:**
+2. **Add your `.xls`/`.xlsx` files** to the `data/` folder (at least one news/impact file required, e.g., `Market_Impact_News_2024.xlsx`)
+3. **Install dependencies in a virtual environment:**
    ```bash
    python3 -m venv venv
    source venv/bin/activate
    pip install -r requirements.txt
    ```
-4. **Configure your Mistral LLM API key**
+4. **Configure your Mistral LLM API key:**
    - Edit `app/core/llm.py` and set `LLM_API_KEY` to your actual API key.
    - Ensure the `model` field matches a valid model for your account (e.g., `mistral-tiny`, `mistral-small`, etc.)
 5. **Run the FastAPI server:**
    ```bash
    uvicorn app.main:app --reload
    ```
-6. **Access the API docs:**
-   - Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) in your browser for interactive Swagger UI.
+6. **Explore the API docs:**
+   - Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for interactive Swagger UI.
 
 ---
 
-## MCP Server: Agentic Flow Orchestration
+## 🧠 How It Works
 
-The **MCP (Multi-Component Process) server** is a core part of this project, enabling advanced agentic workflows. It allows you to orchestrate multiple reasoning steps, LLM calls, and data processing actions in a single, structured flow. This is ideal for:
-- Multi-step decision making
-- Tool-using agents
-- Chained LLM reasoning
-- Customizable, extensible AI pipelines
-
-### How It Works
-- The MCP server exposes endpoints (e.g., `/agentic-flow/`) that run a sequence of steps:
-  1. Read and process all `.xls`/`.xlsx` files
-  2. Extract and analyze news/impact data
-  3. Optionally, analyze each user's portfolio
-  4. Call the LLM (Mistral) with a custom prompt for each step
-  5. Aggregate and return a structured, step-by-step output
-- You can extend the MCP server to add more agents, tools, or reasoning steps as needed.
-
-### Example Endpoint
-
-#### **POST** `/agentic-flow/`
-- **Description:**
-    - Runs an agentic flow to analyze all data and news, and returns a structured output with reasoning steps.
-- **Sample Output:**
-```json
-{
-  "llm_analysis": "The news is positive for the stock market...",
-  "action": "buy",
-  "steps": [
-    {"step": "LLM news analysis", "result": "The news is positive for the stock market..."},
-    {"step": "Decision", "result": "buy"}
-  ]
-}
-```
-
-### Extending the MCP Server
-- Add new flows or agents in `app/services/agentic_flow.py`
-- Add new endpoints in `app/api/mcp.py`
-- Chain together multiple LLM calls, tool uses, or data processing steps
-- Use the MCP server as a controller for complex, multi-agent AI systems
+- **Upload** investor and news files in Excel format.
+- **Process**: The backend reads all files, extracts portfolios and news.
+- **Analyze**: For each investor and each stock, the system combines portfolio data and news, then queries the Mistral LLM for a buy/sell/hold recommendation and detailed reasoning.
+- **Respond**: Returns a structured, explainable report for every investor and every stock.
 
 ---
 
-## API Endpoints
+## 🔗 API Endpoints
 
 ### 1. Upload XLS File
 - **POST** `/upload/`
@@ -108,50 +77,116 @@ The **MCP (Multi-Component Process) server** is a core part of this project, ena
 
 ### 2. Predict Stock Action (Global)
 - **POST** `/predict/`
-- **Description:**
-    - Reads all `.xls`/`.xlsx` files in `data/`
-    - Extracts news/impact text from the news file (filename containing `news`)
-    - Sends news text to Mistral LLM for analysis
-    - Returns a global prediction (buy/sell) and the LLM's analysis
+- **Description:** Returns a global buy/sell recommendation based on all portfolios and news.
 
 ### 3. Predict for Each User (Personalized)
 - **POST** `/predict-each-user/`
-- **Description:**
-    - Reads all `.xls`/`.xlsx` files in `data/`
-    - Extracts news/impact text from the news file (filename containing `news`)
-    - For each user (investor), summarizes their portfolio and combines it with the news
-    - Asks the LLM for a personalized buy/sell/hold recommendation and explanation for each user
-    - Returns a list of recommendations and reasoning for each user
+- **Description:** Returns a buy/sell/hold recommendation and reasoning for each investor.
 
-#### Example Output for `/predict-each-user/`:
+### 4. Predict for Each Stock (Per User)
+- **POST** `/predict-each-stock/`
+- **Description:** Returns a buy/sell/hold recommendation and reasoning for each stock in each investor's portfolio.
+
+### 5. Predict All Investors' Stocks (Comprehensive)
+- **POST** `/predict-all-investors-stocks/`
+- **Description:** Returns a single, comprehensive response with all investors and all their stocks, each with a buy/sell/hold recommendation and detailed LLM explanation.
+
+#### Example Output for `/predict-all-investors-stocks/`:
 ```json
 {
-  "user_recommendations": [
+  "all_investors_stock_recommendations": [
     {
-      "user_file": "Investor_1_Portfolio_2024.xlsx",
-      "recommendation": "buy",
-      "llm_analysis": "Based on the user's portfolio and the positive news, the user should BUY. The portfolio is well diversified and the news indicates a bullish trend."
-    },
-    {
-      "user_file": "Investor_2_Portfolio_2024.xlsx",
-      "recommendation": "hold",
-      "llm_analysis": "The portfolio is stable and the news is neutral. The user should HOLD."
+      "investor": "Investor_1_Portfolio_2024.xlsx",
+      "stocks": [
+        {
+          "stock": "AAPL",
+          "recommendation": "buy",
+          "llm_analysis": "Given the strong news and the user's holding, AAPL is a BUY."
+        },
+        {
+          "stock": "TSLA",
+          "recommendation": "hold",
+          "llm_analysis": "TSLA is stable, and the news is neutral. HOLD."
+        }
+      ]
     }
-    // ... more users
+    // ... more investors
   ]
 }
 ```
 
 ---
 
-## LLM Integration (Mistral)
-- The backend calls the Mistral LLM API using your API key.
-- The model name must be valid for your account (see [Mistral API docs](https://docs.mistral.ai/)).
-- If you get a 400 error with `invalid_model`, update the `model` field in `app/core/llm.py`.
+## 🛠️ Example Code Snippets
+
+### Reading and Processing XLS Files
+
+```python
+import pandas as pd
+import os
+
+def process_xls_files(data_dir):
+    data = []
+    for filename in os.listdir(data_dir):
+        if filename.endswith(".xls") or filename.endswith(".xlsx"):
+            df = pd.read_excel(os.path.join(data_dir, filename))
+            data.append({"filename": filename, "data": df})
+    return data
+```
+
+### LLM Integration
+
+```python
+import httpx
+
+LLM_API_URL = "https://api.mistral.ai/v1/chat/completions"
+LLM_API_KEY = "your_mistral_api_key"
+
+async def analyze_news(news_text):
+    payload = {
+        "model": "mistral-tiny",
+        "messages": [
+            {"role": "system", "content": "You are a financial news analyst."},
+            {"role": "user", "content": news_text}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 512
+    }
+    headers = {"Authorization": f"Bearer {LLM_API_KEY}"}
+    async with httpx.AsyncClient() as client:
+        response = await client.post(LLM_API_URL, json=payload, headers=headers)
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
+```
 
 ---
 
-## Example `.xls` File Placement
+## 🤖 MCP Server: Agentic Flow Orchestration
+
+The **MCP (Multi-Component Process) server** enables advanced agentic workflows. It orchestrates multiple reasoning steps, LLM calls, and data processing actions in a single, structured flow. This is ideal for:
+- Multi-step decision making
+- Tool-using agents
+- Chained LLM reasoning
+- Customizable, extensible AI pipelines
+
+**How It Works:**
+- The MCP server exposes endpoints (e.g., `/agentic-flow/`) that run a sequence of steps:
+  1. Read and process all `.xls`/`.xlsx` files
+  2. Extract and analyze news/impact data
+  3. Optionally, analyze each user's portfolio
+  4. Call the LLM (Mistral) with a custom prompt for each step
+  5. Aggregate and return a structured, step-by-step output
+
+**Extending the MCP Server:**
+- Add new flows or agents in `app/services/agentic_flow.py`
+- Add new endpoints in `app/api/mcp.py`
+- Chain together multiple LLM calls, tool uses, or data processing steps
+
+---
+
+## 📂 Example `.xls` File Placement
+
 - Place all investor and news files in the `data/` folder:
   - `data/Investor_1_Portfolio_2024.xlsx`
   - `data/Market_Impact_News_2024.xlsx`
@@ -159,7 +194,17 @@ The **MCP (Multi-Component Process) server** is a core part of this project, ena
 
 ---
 
-## Troubleshooting
+## 🧩 Extending the Project
+
+- Add more business logic in `app/use_cases/`
+- Add new endpoints in `app/api/endpoints.py` or `app/api/mcp.py`
+- Implement domain models in `app/domain/` as needed
+- Enhance agentic flows or add more LLM tools in `app/services/`
+
+---
+
+## 🐞 Troubleshooting
+
 - **400 Bad Request from Mistral API:**
   - Check your API key and model name in `app/core/llm.py`.
   - Print/log the response to see the error message.
@@ -170,13 +215,17 @@ The **MCP (Multi-Component Process) server** is a core part of this project, ena
 
 ---
 
-## Extending the Project
-- Add more business logic in `app/use_cases/`
-- Add new endpoints in `app/api/endpoints.py` or `app/api/mcp.py`
-- Implement domain models in `app/domain/` as needed
-- Enhance agentic flows or add more LLM tools in `app/services/`
+## 📜 License
+
+MIT (or your preferred license)
 
 ---
 
-## License
-MIT (or your preferred license) 
+## 🙋‍♂️ Questions or Contributions?
+
+- Open an issue or pull request!
+- For feature requests, ideas, or help, contact the maintainer.
+
+---
+
+**Impress your team, investors, or users with this powerful, explainable, and extensible stock prediction backend!** 
